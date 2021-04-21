@@ -1,0 +1,16 @@
+curl -s -L https://github.com/sustrik/libmill/archive/master.tar.gz | tar -zxf -
+mv libmill-master libmill
+cd libmill
+./autogen.sh
+./configure --enable-shared=false
+make libmill.la
+cd ../
+# build sniproxy
+autoreconf -if
+# export CFLAGS=-march=native
+export CPPFLAGS=-I$(pwd)/libmill
+export LDFLAGS=-L$(pwd)/libmill/.libs
+./configure --prefix=/server --sysconfdir=/server
+make
+make check
+make install
