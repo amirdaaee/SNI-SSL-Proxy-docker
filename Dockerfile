@@ -7,7 +7,10 @@ RUN sh ./sni-ssl-proxy.build
 
 FROM alpine:latest as sni-ssl-proxy
 WORKDIR server
+RUN set -x \
+    && apk add --update --no-cache tor \
+    && rm -rf /var/cache/apk/*
 COPY --from=build /server/bin ./
-COPY ./start.sh ./
-ENV SNIPROXY_ARG_A="0.0.0.0" SNIPROXY_ARG_W="8"
-CMD ["sh","start.sh"]
+COPY start.sh ./
+ENV BIND_ADDRESS="0.0.0.0" WORKERS_NO="1"
+CMD ["sh","./start.sh"]
