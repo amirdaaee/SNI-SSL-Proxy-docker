@@ -1,6 +1,6 @@
 services:
   sniproxy:
-    image: sni-ssl-proxy:latest
+    image: amirdaaee/sni-ssl-proxy:latest
     container_name: sniproxy
     hostname: sniproxy
     expose:
@@ -13,6 +13,6 @@ services:
     environment:
       - BIND_ADDRESS=0.0.0.0
       - WORKERS_NO=1
-      - USE_TOR=yes
-#      - UPSTREAM_SOCKS=IP:PORT
+      - USE_TOR=yes   # delete this variable to disable tor
+#      - UPSTREAM_SOCKS=IP:PORT   #if USE_TOR and this variable is not defined, 127.0.0.1:9050 is considered as socks ip
     restart: unless-stopped
